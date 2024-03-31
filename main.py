@@ -2,8 +2,10 @@ import pygame as pg
 import pygame.display
 from map import background
 from cars import car
+from pygame.locals import *
 
 pg.init()
+pg.display.set_caption('Racing Game')
 
 clock = pg.time.Clock()
 crash = False
