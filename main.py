@@ -36,6 +36,7 @@ while not crash:
     position[0] += change_x
     position[1] += change_y
     background.update_background()
+
     car.car(position[0], position[1])
     pg.display.update()  # you can use flip here, will update everything, but it is recommended to use this in 2D
     clock.tick(60)  # the faster, the more you need here

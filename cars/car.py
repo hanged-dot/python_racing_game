@@ -1,13 +1,13 @@
 import os
 import pygame as pg
 
-from map.background import game_display
+from map import config
 
 car_image = pg.image.load("images/car.png")
 
 
 def car(x,y):
-    game_display.blit(car_image, (x, y))
+    config.game_display.blit(car_image, (x, y))
 
 
 '''
