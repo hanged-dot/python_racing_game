@@ -2,12 +2,16 @@ import os
 import pygame as pg
 
 from map import config
+from map import background
 
-car_image = pg.image.load("images/car.png")
 
+class Car():
+    def __init__(self):
+        self.car_image = pg.image.load("images/car.png")
+        self.position = [background.road.path[0][0],background.road.path[0][1]]
 
-def car(x,y):
-    config.game_display.blit(car_image, (x, y))
+    def draw(self):
+        config.game_display.blit(self.car_image, self.position)
 
 
 '''

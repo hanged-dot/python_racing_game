@@ -4,14 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay 
 from math import sqrt
 from collections import deque
-import RandomPointsGenerator
-
-'''def plot_points_path(path):
-    points_a, points_b = zip(*path)
-    plt.figure()
-    plt.plot(points_a, points_b, marker='o', linestyle='-')
-    plt.grid(True)
-    plt.show()'''
+from map.randompointsgenerator import RandomPointsGenerator
 
 class PathGenerator:
     def __dist__(self,A,B):
@@ -138,20 +131,16 @@ class PathGenerator:
         return G
 
     def __init__(self,width=600,height=600,path_width=30,all_points=1000,path_points=50,shortening_tolerance=1.2):
-        '''self.__width__ = width
-        self.__height__ = height'''
         self.__path_width__ = path_width # 2 x path_radius
         self.__shortening_tolerance__ = shortening_tolerance
         self.__all_points__ = all_points
         self.__path_points__ = path_points
 
-        self.__points__ = np.array(RandomPointsGenerator(width,height,all_points).get_positions())
+        self.__points__ = RandomPointsGenerator(width,height,all_points).get_positions()
 
-        self.__G__ = self.__graph_representation__(Delaunay(self.__points__),len(self.__points__))
+        self.__G__ = self.__graph_representation__(Delaunay(np.array(self.__points__)),len(self.__points__))
 
         self.__path__ = self.__find_path__()
 
-        #plot_points_path([self.__points__[p] for p in self.__path__])
-
     def get_path(self):
-        return self.__path__
+        return [self.__points__[i] for i in self.__path__]
