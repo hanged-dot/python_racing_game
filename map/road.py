@@ -5,7 +5,7 @@ from map.pathgenerator import PathGenerator
 
 class Road():
     def __init__(self):
-        self.path = PathGenerator(width=config.display_width,height=config.display_height,path_width=config.road_width).get_path()
+        self.path = PathGenerator(width=config.display_height,height=config.display_width,path_width=config.road_width).get_path()
 
     def draw_line(self,surf,p1,p2,c,w):
         p1v = pg.math.Vector2(p1)
@@ -17,6 +17,10 @@ class Road():
         pg.draw.circle(surf, c, p1, round(w / 2))
         pg.draw.circle(surf, c, p2, round(w / 2))
 
-    def draw(self):
+    def draw(self,car):
         for i in range(len(self.path)-1):
-            self.draw_line(config.game_display,self.path[i],self.path[i+1],"orange",config.road_width)
+            p1 = [self.path[i][0]*config.zoom+config.display_width/2-car.position[0]*config.zoom,
+                  self.path[i][1]*config.zoom+config.display_height/2-car.position[1]*config.zoom]
+            p2 = [self.path[i+1][0]*config.zoom+config.display_width/2-car.position[0]*config.zoom,
+                  self.path[i+1][1]*config.zoom+config.display_height/2-car.position[1]*config.zoom]
+            self.draw_line(config.game_display,p1,p2,"orange",config.road_width*config.zoom)

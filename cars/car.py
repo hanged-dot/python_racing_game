@@ -11,7 +11,9 @@ class Car():
         self.position = [background.road.path[0][0],background.road.path[0][1]]
 
     def draw(self):
-        config.game_display.blit(self.car_image, self.position)
+        temp_position = [self.position[0]*config.zoom+config.display_width/2-self.position[0]*config.zoom,
+                         self.position[1]*config.zoom+config.display_height/2-self.position[1]*config.zoom]
+        config.game_display.blit(self.car_image, temp_position)
 
 
 '''

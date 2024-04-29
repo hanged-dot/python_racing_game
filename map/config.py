@@ -4,6 +4,7 @@ from pygame.locals import *
 # constants
 display_width = 800
 display_height = 600
+zoom = 5
 road_width = 30
 
 game_display = pg.display.set_mode((display_width, display_height), HWSURFACE | DOUBLEBUF | RESIZABLE)
