@@ -15,7 +15,7 @@ clock = pg.time.Clock()
 crash = False
 change_x=0
 change_y=0
-vel = 1.5
+vel = 1.4
 
 while not crash:
     for event in pg.event.get():

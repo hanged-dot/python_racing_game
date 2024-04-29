@@ -5,7 +5,7 @@ from map.pathgenerator import PathGenerator
 
 class Road():
     def __init__(self):
-        self.path = PathGenerator(width=config.display_height,height=config.display_width,path_width=config.road_width).get_path()
+        self.path = PathGenerator(path_points=100,width=config.display_height,height=config.display_width,path_width=config.road_width).get_path()
 
     def draw_line(self,surf,p1,p2,c,w):
         p1v = pg.math.Vector2(p1)

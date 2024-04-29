@@ -5,11 +5,9 @@ from scipy.spatial import Delaunay
 from math import sqrt
 from collections import deque
 from map.randompointsgenerator import RandomPointsGenerator
+from map.distance import dist
 
 class PathGenerator:
-    def __dist__(self,A,B):
-        return sqrt((A[0]-B[0])**2+(A[1]-B[1])**2)
-
     def __dist_point_segment__(self,A,B,C): # distance from segment |AB| to point C assuming all coordinates > 0
         # równanie prostej l: A1x + B1y + C1 = 0, do prostej należą punkty A i B
         x1, y1 = A
@@ -53,32 +51,32 @@ class PathGenerator:
 
         # dystans
 
-        if self.__dist__(A,X) < self.__dist__(A,B) and self.__dist__(B,X) < self.__dist__(A,B):
-            return self.__dist__(C,X)
+        if dist(A,X) < dist(A,B) and dist(B,X) < dist(A,B):
+            return dist(C,X)
 
-        return min(self.__dist__(A,C),self.__dist__(B,C))
+        return min(dist(A,C),dist(B,C))
 
     def __is_eligible_point__(self,v):
         if self.__parent__[v] != -1:
             p = self.__parent__[v]
             t = self.__parent__[p]
-            dist_to_t = self.__dist__(self.__points__[p],self.__points__[t])
+            dist_to_t = dist(self.__points__[p],self.__points__[t])
 
             while t != -1:
                 if self.__dist_point_segment__(self.__points__[v],self.__points__[p],self.__points__[t]) <= self.__path_width__ and dist_to_t > self.__shortening_tolerance__*self.__path_width__:
                     return False
 
-                dist_to_t += self.__dist__(self.__points__[t],self.__points__[self.__parent__[t]])
+                dist_to_t += dist(self.__points__[t],self.__points__[self.__parent__[t]])
                 t = self.__parent__[t]
                 
             t = self.__parent__[v]
-            dist_to_t = self.__dist__(self.__points__[v],self.__points__[t])
+            dist_to_t = dist(self.__points__[v],self.__points__[t])
 
             while self.__parent__[t] != -1:
                 if self.__dist_point_segment__(self.__points__[t],self.__points__[self.__parent__[t]],self.__points__[v]) <= self.__path_width__ and dist_to_t > self.__shortening_tolerance__*self.__path_width__:
                     return False
 
-                dist_to_t += self.__dist__(self.__points__[t],self.__points__[self.__parent__[t]])
+                dist_to_t += dist(self.__points__[t],self.__points__[self.__parent__[t]])
                 t = self.__parent__[t]
 
         return True
