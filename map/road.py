@@ -42,6 +42,8 @@ class Road():
             if dist(self.path[self.road_length-1],car.position) < dist(self.path[car.checkpoint],car.position):
                 car.checkpoint = self.road_length-1
                 car.dist_to_goal = dist(car.position,self.path[-1])
+        
+        print(car.dist_to_goal)
 
 
 

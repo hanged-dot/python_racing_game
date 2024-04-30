@@ -22,8 +22,8 @@ while not crash:
     background.update_background(player_car)
     player_car.draw()
     pg.display.update()  # you can use flip here, will update everything, but it is recommended to use this in 2D
-    background.check_for_checkpoints(player_car)
     background.check_boundaries(player_car)
+    background.check_for_checkpoints(player_car)
 
     if player_car.checkpoint == 99:
         print("win")
