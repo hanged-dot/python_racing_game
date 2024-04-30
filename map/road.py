@@ -1,7 +1,7 @@
 import pygame as pg
 from map import config
 from map.pathgenerator import PathGenerator
-from map.distance import dist
+from map.distance import dist, dist_point_segment
 
 
 class Road():
@@ -29,13 +29,13 @@ class Road():
             self.draw_line(config.game_display,p1,p2,"orange",config.road_width*config.zoom)
 
     def checkpoints(self,car):
-        distances_to_nodes = [(n,dist(i,car.position)) for n, i in enumerate(self.path)]
-        distances_to_nodes.sort(key=lambda x: x[1]) 
-        
-        if abs(distances_to_nodes[0][0]-distances_to_nodes[1][0]) == 1 and distances_to_nodes[0][0] != self.road_length-1:
-            car.checkpoint = min(distances_to_nodes[0][0],distances_to_nodes[1][0])
-        else:
-            car.checkpoint = distances_to_nodes[0][0]
+        distances = [(i,dist_point_segment(self.path[i],self.path[i+1],car.position)) for i in range(len(self.path)-1)]
+        distances.sort(key=lambda x: x[1])
+        car.checkpoint = distances[0][0]
+
+        if distances[0][0] == self.road_length-2:
+            if dist(self.path[self.road_length-1],car.position) < dist(self.path[car.checkpoint],car.position):
+                car.checkpoint = self.road_length-1
 
 
 

@@ -24,6 +24,9 @@ while not crash:
     pg.display.update()  # you can use flip here, will update everything, but it is recommended to use this in 2D
     background.check_for_checkpoints(player_car)
     background.check_boundaries(player_car)
+
+    if player_car.checkpoint == 99:
+        print("win")
     #print(f'Nodes so far: {done}/{all}')
     clock.tick(60)  # the faster, the more you need here
 
