@@ -1,6 +1,6 @@
 import pygame as pg
 from map import config
-from map.PathGenerator import PathGenerator
+from map.pathgenerator import PathGenerator
 from map.distance import dist
 
 

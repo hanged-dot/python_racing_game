@@ -24,13 +24,16 @@ class Car():
     def draw(self):
         temp_position = [
             self.position[0] * config.zoom + config.display_width / 2 - self.position[0] * config.zoom - self.width / 2,
-            self.position[1] * config.zoom + config.display_height / 2 - self.position[
-                1] * config.zoom - self.height / 2]
+            self.position[1] * config.zoom + config.display_height / 2 - self.position[1] * config.zoom - self.height / 2]
         config.game_display.blit(self.image, temp_position)
 
     def update_car(self, keys):
         self.rotate_car(keys)
         self.move_car(keys)
+
+    def move_to_checkpoint(self):
+        self.position = list(background.road.path[self.checkpoint])
+        self.velocity = 0
 
     def move_car(self, keys):
         rad = -1*(90-self.angle) * 2 * pi / 360
