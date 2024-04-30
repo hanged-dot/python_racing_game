@@ -20,3 +20,7 @@ def borders(x, y, object_width, object_height):
     if y > config.display_height - object_height or y < 0:
         return False
     return True
+
+
+def check_for_checkpoints(car):
+    return road.checkpoints(car)
