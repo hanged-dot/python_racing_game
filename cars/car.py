@@ -1,6 +1,6 @@
 import os
 import pygame as pg
-from math import pi, sin, cos, sqrt
+from math import pi, sin, cos, atan
 
 from map import config
 from map import background
@@ -18,7 +18,7 @@ class Car():
         self.standby=0.001
         self.angle = 0
         self.rotation = 3
-        self.max_speed = 5
+        self.max_speed = config.max_speed
         self.checkpoint = 0
         self.dist_to_goal = 0
 
@@ -32,9 +32,12 @@ class Car():
         self.rotate_car(keys)
         self.move_car(keys)
 
-    def move_to_checkpoint(self):
+    def move_to_checkpoint(self,road):
         self.position = list(background.road.path[self.checkpoint])
         self.velocity = 0
+        #A = road.path[self.checkpoint]
+        #B = road.path[self.checkpoint+1]
+        #self.angle = atan(-(B[1]-A[1])/(B[0]-A[0])) / 2 / pi * 360 + 90
 
     def move_car(self, keys):
         rad = -1*(90-self.angle) * 2 * pi / 360

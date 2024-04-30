@@ -28,4 +28,4 @@ def check_boundaries(car):
     distances = [dist_point_segment(road.path[i],road.path[i+1],car.position) for i in range(len(road.path)-1)]
     
     if min(distances) > config.road_width/2:
-        car.move_to_checkpoint()
+        car.move_to_checkpoint(road)

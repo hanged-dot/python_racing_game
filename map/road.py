@@ -7,7 +7,7 @@ from map.distance import dist, dist_point_segment
 class Road():
     def __init__(self):
         self.road_length = 100
-        self.wholepath=PathGenerator(path_points=self.road_length,width=config.display_height,height=config.display_width,path_width=config.road_width)
+        self.wholepath=PathGenerator(path_points=self.road_length,width=config.display_height,height=config.display_width,path_width=config.road_width+config.max_speed)
         self.path = self.wholepath.get_path()
         self.dist_to_goal = [0 for _ in range(len(self.path))]
 
