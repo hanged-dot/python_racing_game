@@ -6,7 +6,8 @@ from map.distance import dist
 
 class Road():
     def __init__(self):
-        self.wholepath=PathGenerator(path_points=100,width=config.display_height,height=config.display_width,path_width=config.road_width)
+        self.road_length = 100
+        self.wholepath=PathGenerator(path_points=self.road_length,width=config.display_height,height=config.display_width,path_width=config.road_width)
         self.path = self.wholepath.get_path()
 
     def draw_line(self,surf,p1,p2,c,w):
@@ -30,7 +31,11 @@ class Road():
     def checkpoints(self,car):
         distances_to_nodes = [(n,dist(i,car.position)) for n, i in enumerate(self.path)]
         distances_to_nodes.sort(key=lambda x: x[1]) 
-        car.checkpoint = min(distances_to_nodes[0][0],distances_to_nodes[1][0])
+        
+        if abs(distances_to_nodes[0][0]-distances_to_nodes[1][0]) == 1 and distances_to_nodes[0][0] != self.road_length-1:
+            car.checkpoint = min(distances_to_nodes[0][0],distances_to_nodes[1][0])
+        else:
+            car.checkpoint = distances_to_nodes[0][0]
 
 
 
