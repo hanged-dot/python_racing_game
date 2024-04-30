@@ -19,6 +19,7 @@ class Car():
         self.angle = 0
         self.rotation = 3
         self.max_speed = 5
+        self.checkpoint = 0
 
     def draw(self):
         temp_position = [

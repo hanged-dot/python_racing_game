@@ -26,19 +26,11 @@ class Road():
             p2 = [self.path[i+1][0]*config.zoom+config.display_width/2-car.position[0]*config.zoom,
                   self.path[i+1][1]*config.zoom+config.display_height/2-car.position[1]*config.zoom]
             self.draw_line(config.game_display,p1,p2,"orange",config.road_width*config.zoom)
-    def checkpoints(self,car):
-        nodes = len(self.path)
-        checked=[False for _ in range(nodes)]
 
-        for i in range(len(self.path)):
-            if not checked[i]:
-                if dist(self.path[i],car.position)<=self.wholepath.__path_width__*2:
-                    checked[i]=True
-        count=0
-        for i in range(nodes):
-            if checked[i]:
-                count+=1
-        return count, nodes
+    def checkpoints(self,car):
+        distances_to_nodes = [(n,dist(i,car.position)) for n, i in enumerate(self.path)]
+        distances_to_nodes.sort(key=lambda x: x[1]) 
+        car.checkpoint = min(distances_to_nodes[0][0],distances_to_nodes[1][0])
 
 
 

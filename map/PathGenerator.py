@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
 from math import sqrt
 from collections import deque
-from map.RandomPointsGenerator import RandomPointsGenerator
+from map.randompointsgenerator import RandomPointsGenerator
 from map.distance import dist
 
 
