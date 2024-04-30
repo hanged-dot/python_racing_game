@@ -9,6 +9,10 @@ class Road():
         self.road_length = 100
         self.wholepath=PathGenerator(path_points=self.road_length,width=config.display_height,height=config.display_width,path_width=config.road_width)
         self.path = self.wholepath.get_path()
+        self.dist_to_goal = [0 for _ in range(len(self.path))]
+
+        for i in range(len(self.path)-2,-1,-1):
+            self.dist_to_goal[i] = self.dist_to_goal[i+1]+dist(self.path[i+1],self.path[i])
 
     def draw_line(self,surf,p1,p2,c,w):
         p1v = pg.math.Vector2(p1)
@@ -32,10 +36,12 @@ class Road():
         distances = [(i,dist_point_segment(self.path[i],self.path[i+1],car.position)) for i in range(len(self.path)-1)]
         distances.sort(key=lambda x: x[1])
         car.checkpoint = distances[0][0]
+        car.dist_to_goal = self.dist_to_goal[car.checkpoint+1]+dist(car.position,self.path[car.checkpoint+1])
 
         if distances[0][0] == self.road_length-2:
             if dist(self.path[self.road_length-1],car.position) < dist(self.path[car.checkpoint],car.position):
                 car.checkpoint = self.road_length-1
+                car.dist_to_goal = dist(car.position,self.path[-1])
 
 
 
