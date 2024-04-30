@@ -1,6 +1,6 @@
 import pygame as pg
 from map import config
-from map.pathgenerator import PathGenerator
+from map.PathGenerator import PathGenerator
 
 
 class Road():
