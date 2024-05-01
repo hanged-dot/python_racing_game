@@ -7,7 +7,7 @@ from map import background
 
 
 class Car():
-    def __init__(self):
+    def __init__(self,road):
         self.image = pg.image.load("images/car.png")
         self.default_image = pg.image.load("images/car.png")
         self.position = [background.road.path[0][0], background.road.path[0][1]]
@@ -22,6 +22,8 @@ class Car():
         self.checkpoint = 0
         self.dist_to_goal = 0
 
+        self.road_angle(road)
+
     def draw(self):
         temp_position = [
             self.position[0] * config.zoom + config.display_width / 2 - self.position[0] * config.zoom - self.width / 2,
@@ -31,13 +33,23 @@ class Car():
     def update_car(self, keys):
         self.rotate_car(keys)
         self.move_car(keys)
+    
+    def road_angle(self,road):
+        if self.checkpoint+1 == 100:
+            return
+
+        A = road.path[self.checkpoint]
+        B = road.path[self.checkpoint+1]
+
+        if B[0] < A[0]:
+            self.angle = atan(-(B[1]-A[1])/(B[0]-A[0])) / 2 / pi * 360 + 90
+        else:
+            self.angle = atan(-(B[1]-A[1])/(B[0]-A[0])) / 2 / pi * 360 + 270
 
     def move_to_checkpoint(self,road):
         self.position = list(background.road.path[self.checkpoint])
         self.velocity = 0
-        #A = road.path[self.checkpoint]
-        #B = road.path[self.checkpoint+1]
-        #self.angle = atan(-(B[1]-A[1])/(B[0]-A[0])) / 2 / pi * 360 + 90
+        self.road_angle(road)
 
     def move_car(self, keys):
         rad = -1*(90-self.angle) * 2 * pi / 360

@@ -5,7 +5,7 @@ from cars.car import Car
 pg.init()
 pg.display.set_caption('Racing Game')
 
-player_car = Car()
+player_car = Car(background.road)
 clock = pg.time.Clock()
 crash = False
 

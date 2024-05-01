@@ -6,7 +6,6 @@ from map.distance import dist_point_segment
 background = pg.transform.scale(pg.image.load('images/desert.png').convert(), (256, 256))
 road = Road()
 
-
 def update_background(car):
     for y in range(0, config.display_height, 256):
         for x in range(0, config.display_width, 256):
