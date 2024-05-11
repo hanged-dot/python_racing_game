@@ -2,11 +2,11 @@ import random
 
 class RandomPointsGenerator:
     def __init__(self,width,height,count):
-        self.P = self.__all_positions__(width,height)
-        random.shuffle(self.P)
-        self.P = self.P[:count]
+        self._positions = self.__all_positions(width,height)
+        random.shuffle(self._positions)
+        self._positions = self._positions[:count]
 
-    def __all_positions__(self,width,height):
+    def __all_positions(self,width,height):
         P = []
 
         for x in range(1,width+1):
@@ -14,6 +14,3 @@ class RandomPointsGenerator:
                 P.append((x,y))
 
         return P
-    
-    def get_positions(self):
-        return self.P

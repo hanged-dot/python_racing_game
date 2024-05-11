@@ -1,11 +1,7 @@
-from enum import Enum
-import pygame as pg
-from pygame.locals import *
 # constants
 display_width = 600
-display_height = 400
+display_height = 600
 zoom = 5
 road_width = 30
 max_speed = 5
-
-game_display = pg.display.set_mode((display_width, display_height), HWSURFACE | DOUBLEBUF | RESIZABLE)
+road_length = 100
