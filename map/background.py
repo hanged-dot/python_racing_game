@@ -1,7 +1,4 @@
 import pygame as pg
-from map import config
-from map.road import Road
-from map.distance import dist_point_segment
 
 class Background():
     def __init__(self,width,height,display):
@@ -14,3 +11,6 @@ class Background():
         for y in range(0, self.__height, 256):
             for x in range(0, self.__width, 256):
                 self.__display.display.blit(self.__image, (x, y))
+    def update_display(self, width,height):
+        self.__height = height
+        self.__width = width

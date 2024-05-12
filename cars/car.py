@@ -18,11 +18,16 @@ class Car():
         self.__acceleration = 0.002
         self.__standby= 0.001
         self.__angle = 0
+        self.__previous_angle = 0
         self.__rotation = 3
+        self.__drift_factor=0.02
+        self.__drift_dir = 0
         self.__max_speed = config.max_speed
         self.__checkpoint = 0
         self.__dist_to_goal = 0
         self.__display = display
+        self.__volume=0
+        self.engine_sound = pg.mixer.Sound("images/car-engine-71198.mp3")
 
         self.__road_angle()
     
@@ -55,6 +60,7 @@ class Car():
     def move_to_checkpoint(self):
         self.__position = list(self.road.get_path()[self.__checkpoint])
         self.__velocity = 0
+        self.__drift_dir = 0
         self.__road_angle()
     
     def get_checkpoint(self):
@@ -78,21 +84,38 @@ class Car():
                 self.__velocity += self.__standby
             else:
                 self.__velocity = 0
+        self.volume = 1 - abs((self.__max_speed-self.__velocity)/self.__max_speed)
+        self.engine_sound.set_volume(self.__volume)
         change_x = self.__velocity * cos(rad) * -1
         change_y = self.__velocity * sin(rad)
+
+        change_x += cos(rad + pi / 2) * -1 * self.__drift_dir
+        change_y += sin(rad + pi / 2) * self.__drift_dir
+
         self.__position[0] += change_x
         self.__position[1] += change_y
 
     def __rotate(self, keys):
-        self.__rotation=3*self.__velocity
-        if keys[pg.K_LEFT] and keys[pg.K_UP]:
+        self.__rotation = 3*self.__velocity
+        const = self.__drift_factor * self.__velocity
+        if keys[pg.K_LEFT] and self.__velocity>0:
             self.__angle += self.__rotation
-        if keys[pg.K_RIGHT] and keys[pg.K_UP]:
+            self.__drift_dir += -1 *const
+        if keys[pg.K_RIGHT] and self.__velocity>0:
             self.__angle += -self.__rotation
-        if keys[pg.K_LEFT] and keys[pg.K_DOWN]:
+            self.__drift_dir += 1 * const
+        if keys[pg.K_LEFT] and self.__velocity<0:
             self.__angle += -self.__rotation
-        if keys[pg.K_RIGHT] and keys[pg.K_DOWN]:
+            self.__drift_dir += -1 * const
+        if keys[pg.K_RIGHT] and self.__velocity<0:
             self.__angle += self.__rotation
+            self.__drift_dir += 1 * const
+
+        if not keys[pg.K_LEFT] and not keys[pg.K_RIGHT]:
+            if self.__drift_dir < 0: self.__drift_dir += 0.015 * self.__velocity
+            if self.__drift_dir > 0: self.__drift_dir -= 0.015 * self.__velocity
+
+
         rotated_image = pg.transform.rotate(self.__default_image, self.__angle)
         self.__image = rotated_image
 

@@ -1,5 +1,5 @@
 import pygame as pg
-from map.pathgenerator import PathGenerator
+from map.PathGenerator import PathGenerator
 from map.distance import dist, dist_point_segment
 
 
