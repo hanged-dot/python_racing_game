@@ -1,5 +1,5 @@
 import pygame as pg
-from map.PathGenerator import PathGenerator
+from map.pathgenerator import PathGenerator
 from map.distance import dist, dist_point_segment
 
 
@@ -8,10 +8,18 @@ class Road():
         self.__length = road_length
         self.__zoom = zoom
         self.__width = road_width
-        self.__wholepath=PathGenerator(shortening_tolerance=1,path_points=self.__length,width=1500,height=1500,all_points=3000,path_width=road_width+max_speed)
+        self.__wholepath = PathGenerator(shortening_tolerance=1,path_points=self.__length,width=1500,height=1500,all_points=3000,path_width=road_width+max_speed)
         self.__path = self.__wholepath._path
         self.__dist_to_goal = [0 for _ in range(len(self.__path))]
         self.__display = display
+        self.__surface = pg.surface.Surface((1500*self.__zoom,1500*self.__zoom),pg.SRCALPHA)
+
+        for i in range(len(self.__path)-1):
+            p1 = [self.__path[i][0]*self.__zoom+self.__display.width/2,
+                  self.__path[i][1]*self.__zoom+self.__display.height/2]
+            p2 = [self.__path[i+1][0]*self.__zoom+self.__display.width/2,
+                  self.__path[i+1][1]*self.__zoom+self.__display.height/2]
+            self.__draw_line(p1,p2)
 
         for i in range(len(self.__path)-2,-1,-1):
             self.__dist_to_goal[i] = self.__dist_to_goal[i+1]+dist(self.__path[i+1],self.__path[i])
@@ -42,17 +50,12 @@ class Road():
         lv = (p2v - p1v).normalize()
         lnv = pg.math.Vector2(-lv.y, lv.x) * w // 2
         pts = [p1v + lnv, p2v + lnv, p2v - lnv, p1v - lnv]
-        pg.draw.polygon(self.__display.display, c, pts)
-        pg.draw.circle(self.__display.display, c, p1, round(w / 2))
-        pg.draw.circle(self.__display.display, c, p2, round(w / 2))
+        pg.draw.polygon(self.__surface, c, pts)
+        pg.draw.circle(self.__surface, c, p1, round(w / 2))
+        pg.draw.circle(self.__surface, c, p2, round(w / 2))
 
-    def draw(self,center):
-        for i in range(len(self.__path)-1):
-            p1 = [self.__path[i][0]*self.__zoom+self.__display.width/2-center[0]*self.__zoom,
-                  self.__path[i][1]*self.__zoom+self.__display.height/2-center[1]*self.__zoom]
-            p2 = [self.__path[i+1][0]*self.__zoom+self.__display.width/2-center[0]*self.__zoom,
-                  self.__path[i+1][1]*self.__zoom+self.__display.height/2-center[1]*self.__zoom]
-            self.__draw_line(p1,p2)
+    def draw(self,center):        
+        self.__display.display.blit(self.__surface,(-self.__zoom*center[0],-self.__zoom*center[1]))
 
     def checkpoints(self,car):
         distances = [(i,dist_point_segment(self.__path[i],self.__path[i+1],car.get_position())) for i in range(len(self.__path)-1)]
