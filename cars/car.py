@@ -112,8 +112,8 @@ class Car():
             self.__drift_dir += 1 * const
 
         if not keys[pg.K_LEFT] and not keys[pg.K_RIGHT]:
-            if self.__drift_dir < 0: self.__drift_dir += 0.015 * self.__velocity
-            if self.__drift_dir > 0: self.__drift_dir -= 0.015 * self.__velocity
+            if self.__drift_dir < 0: self.__drift_dir += 0.02 * abs(self.__velocity)
+            if self.__drift_dir > 0: self.__drift_dir -= 0.02 * abs(self.__velocity)
 
 
         rotated_image = pg.transform.rotate(self.__default_image, self.__angle)
