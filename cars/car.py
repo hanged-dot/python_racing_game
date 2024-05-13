@@ -20,7 +20,7 @@ class Car():
         self.__angle = 0
         self.__previous_angle = 0
         self.__rotation = 3
-        self.__drift_factor=0.02
+        self.__drift_factor=0.01
         self.__drift_dir = 0
         self.__max_speed = config.max_speed
         self.__checkpoint = 0

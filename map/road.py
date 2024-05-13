@@ -12,13 +12,14 @@ class Road():
         self.__path = self.__wholepath._path
         self.__dist_to_goal = [0 for _ in range(len(self.__path))]
         self.__display = display
-        self.__surface = pg.surface.Surface((1500*self.__zoom,1500*self.__zoom),pg.SRCALPHA)
+        self.__road_width = road_width
+        self.__surface = pg.surface.Surface(((1500+road_width)*self.__zoom+self.__display.width/2,(1500+road_width)*self.__zoom+self.__display.height/2),pg.SRCALPHA)
 
         for i in range(len(self.__path)-1):
-            p1 = [self.__path[i][0]*self.__zoom+self.__display.width/2,
-                  self.__path[i][1]*self.__zoom+self.__display.height/2]
-            p2 = [self.__path[i+1][0]*self.__zoom+self.__display.width/2,
-                  self.__path[i+1][1]*self.__zoom+self.__display.height/2]
+            p1 = [self.__path[i][0]*self.__zoom+self.__display.width/2+road_width/2*self.__zoom,
+                  self.__path[i][1]*self.__zoom+self.__display.height/2+road_width/2*self.__zoom]
+            p2 = [self.__path[i+1][0]*self.__zoom+self.__display.width/2+road_width/2*self.__zoom,
+                  self.__path[i+1][1]*self.__zoom+self.__display.height/2+road_width/2*self.__zoom]
             self.__draw_line(p1,p2)
 
         for i in range(len(self.__path)-2,-1,-1):
@@ -55,7 +56,7 @@ class Road():
         pg.draw.circle(self.__surface, c, p2, round(w / 2))
 
     def draw(self,center):        
-        self.__display.display.blit(self.__surface,(-self.__zoom*center[0],-self.__zoom*center[1]))
+        self.__display.display.blit(self.__surface,(-self.__zoom*center[0]-self.__road_width/2*self.__zoom,-self.__zoom*center[1]-self.__road_width/2*self.__zoom))
 
     def checkpoints(self,car):
         distances = [(i,dist_point_segment(self.__path[i],self.__path[i+1],car.get_position())) for i in range(len(self.__path)-1)]
