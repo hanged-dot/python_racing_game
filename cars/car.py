@@ -30,9 +30,18 @@ class Car():
         self.engine_sound = pg.mixer.Sound("images/car-engine-71198.mp3")
 
         self.__road_angle()
+
+    def set_dist_to_goal(self,dist):
+        self.__dist_to_goal = dist
+
+    def get_dist_to_goal(self):
+        return self.__dist_to_goal
     
     def get_position(self):
         return self.__position
+
+    def get_velocity(self):
+        return self.__velocity
 
     def draw(self):
         temp_position = [

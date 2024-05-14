@@ -1,5 +1,5 @@
 import pygame as pg
-from map.PathGenerator import PathGenerator
+from map.pathgenerator import PathGenerator
 from map.distance import dist, dist_point_segment
 
 
@@ -62,12 +62,12 @@ class Road():
         distances = [(i,dist_point_segment(self.__path[i],self.__path[i+1],car.get_position())) for i in range(len(self.__path)-1)]
         distances.sort(key=lambda x: x[1])
         car.set_checkpoint(distances[0][0])
-        car.__dist_to_goal = self.__dist_to_goal[car.get_checkpoint()+1]+dist(car.get_position(),self.__path[car.get_checkpoint()+1])
+        car.set_dist_to_goal(self.__dist_to_goal[car.get_checkpoint()+1]+dist(car.get_position(),self.__path[car.get_checkpoint()+1]))
 
         if distances[0][0] == self.__length-2:
             if dist(self.__path[self.__length-1],car.get_position()) < dist(self.__path[car.get_checkpoint()],car.get_position()):
                 car.set_checkpoint(self.__length-1)
-                car.__dist_to_goal = dist(car.get_position(),self.__path[-1])
+                car.set_dist_to_goal(dist(car.get_position(),self.__path[-1]))
 
 
 

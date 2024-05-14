@@ -4,6 +4,7 @@ from map.road import Road
 from map.background import Background
 from map import config
 from display import Display
+import csv
 
 pg.init()
 pg.mixer.init()
@@ -17,6 +18,9 @@ background = Background(config.display_width,config.display_height,display)
 
 clock = pg.time.Clock()
 crash = False
+
+file =  open('stats.csv', mode='a', newline='')
+writer = csv.writer(file)
 
 while not crash:
     for event in pg.event.get():
@@ -43,6 +47,12 @@ while not crash:
     background.draw()
     road.draw(player_car.get_position())
     player_car.draw()
+    
+    font = pg.font.Font('freesansbold.ttf', 32)
+    text = font.render('Velocity: %.2f   Distance left: %.2f' % (player_car.get_velocity(), player_car.get_dist_to_goal()), True, (255, 165, 0), (255, 255, 255))
+    display.display.blit(text,text.get_rect())
+
+    writer.writerow([player_car.get_velocity(),player_car.get_dist_to_goal()])
 
 
     pg.display.update()  # you can use flip here, will update everything, but it is recommended to use this in 2D
