@@ -59,7 +59,7 @@ class Road():
         self.__display.display.blit(self.__surface,(-self.__zoom*center[0]-self.__road_width/2*self.__zoom,-self.__zoom*center[1]-self.__road_width/2*self.__zoom))
 
     def checkpoints(self,car):
-        distances = [(i,dist_point_segment(self.__path[i],self.__path[i+1],car.get_position())) for i in range(len(self.__path)-1)]
+        distances = [(i,dist_point_segment(self.__path[i],self.__path[i+1],car.get_position())) for i in range(len(self.__path)-2,-1,-1)]
         distances.sort(key=lambda x: x[1])
         car.set_checkpoint(distances[0][0])
         car.set_dist_to_goal(self.__dist_to_goal[car.get_checkpoint()+1]+dist(car.get_position(),self.__path[car.get_checkpoint()+1]))

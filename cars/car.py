@@ -1,4 +1,5 @@
 import os
+import copy
 import pygame as pg
 from math import pi, sin, cos, atan
 
@@ -18,7 +19,6 @@ class Car():
         self.__acceleration = 0.002
         self.__standby= 0.001
         self.__angle = 0
-        self.__previous_angle = 0
         self.__rotation = 3
         self.__drift_factor=0.01
         self.__drift_dir = 0
@@ -43,10 +43,10 @@ class Car():
     def get_velocity(self):
         return self.__velocity
 
-    def draw(self):
+    def draw(self,center):
         temp_position = [
-            self.__position[0] * self.road.get_zoom() + self.__display.width / 2 - self.__position[0] * self.road.get_zoom() - self.__width / 2,
-            self.__position[1] * self.road.get_zoom() + self.__display.height / 2 - self.__position[1] * self.road.get_zoom() - self.__height / 2]
+            self.__position[0] * self.road.get_zoom() + self.__display.width / 2 - center[0] * self.road.get_zoom() - self.__width / 2,
+            self.__position[1] * self.road.get_zoom() + self.__display.height / 2 - center[1] * self.road.get_zoom() - self.__height / 2]
         
         self.__display.display.blit(self.__image, temp_position)
 
