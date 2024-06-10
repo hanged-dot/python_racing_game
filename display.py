@@ -13,3 +13,7 @@ class Display:
         pg.mixer.music.set_volume(self.music_volume)
         pg.mixer.music.play(-1)
 
+    def update_display(self, width,height):
+        self.width=width
+        self.height=height
+        self.display =pg.display.set_mode((self.width, self.height), HWSURFACE | DOUBLEBUF | RESIZABLE)

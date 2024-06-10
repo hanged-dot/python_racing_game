@@ -3,7 +3,7 @@ import copy
 import pygame as pg
 from math import pi, sin, cos, atan
 
-from map import config
+import config
 from map import background
 
 
@@ -40,6 +40,11 @@ class Car():
     def get_position(self):
         return self.__position
 
+    def restart(self):
+        self.__checkpoint=0
+        self.move_to_checkpoint()
+
+
     def get_velocity(self):
         return self.__velocity
 
@@ -53,6 +58,7 @@ class Car():
     def update(self, keys):
         self.__rotate(keys)
         self.__move(keys)
+
     
     def __road_angle(self):
         if self.__checkpoint+1 == self.road.get_length():
@@ -93,7 +99,7 @@ class Car():
                 self.__velocity += self.__standby
             else:
                 self.__velocity = 0
-        self.volume = 1 - abs((self.__max_speed-self.__velocity)/self.__max_speed)
+        #self.volume = (1 - ((self.__max_speed-abs(self.__velocity))/self.__max_speed))*pg.mixer.music.get_volume()
         self.engine_sound.set_volume(self.__volume)
         change_x = self.__velocity * cos(rad) * -1
         change_y = self.__velocity * sin(rad)
@@ -128,6 +134,9 @@ class Car():
         rotated_image = pg.transform.rotate(self.__default_image, self.__angle)
         self.__image = rotated_image
 
-
+    def finish_line(self):
+        if self.__dist_to_goal==0:
+            return True
+        return False
 
 
