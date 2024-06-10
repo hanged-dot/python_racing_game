@@ -1,5 +1,6 @@
 import pygame
 import pygame as pg
+import numpy as np
 from math import pi
 from cars.car import Car
 from cars.automatedcar import AutomatedCar
@@ -103,7 +104,7 @@ class Game:
             self.road.check_boundaries(self.player_car)
             self.road.check_for_checkpoints(self.player_car)
 
-            if self.opponent_car._AutomatedCar__velocity < 2.0:
+            if self.opponent_car._AutomatedCar__velocity < np.random.normal(1,0.1)*1.4:
                 self.opponent_car.update(True)
             else:
                 self.opponent_car.update(False)
