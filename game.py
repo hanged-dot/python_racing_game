@@ -79,6 +79,8 @@ class Game:
                 self.button_manager.show_homescreen()
 
         self.background.draw()
+        self.display.display.blit(self.button_manager.begin_text,
+                                  (int(self.display.width / 13), int(self.display.height / 4)))
         pygame_widgets.update(events)
         pg.display.update()
 
@@ -132,7 +134,6 @@ class Game:
 
 
     def update_stats_display(self):
-
         statistics_surface = pg.Surface((self.display.width // 2.5, self.display.height // 6), pg.SRCALPHA)
         statistics_surface.fill((128, 128, 128, 128))
 
@@ -177,7 +178,7 @@ class Game:
                 self.unpaused()
         self.update_drawing()
         self.display.display.blit(self.button_manager.rect, (0, 0))
-        self.display.display.blit(self.button_manager.pause_statistics_text, (int(self.display.width / 4), int(self.display.height / 4)))
+        self.display.display.blit(self.button_manager.pause_statistics_text, (int(self.display.width / 5), int(self.display.height / 5)))
         pg.mixer.music.set_volume(self.button_manager.getVolumeValue())
         pygame_widgets.update(events)
         pg.display.flip()
@@ -204,7 +205,7 @@ class Game:
                 self.button_manager.show_endgame()
 
         self.background.draw()
-        self.display.display.blit(self.button_manager.endgame_text, (int(self.display.width / 4), int(self.display.height / 4)))
+        self.display.display.blit(self.button_manager.endgame_text, (int(self.display.width / 3), int(self.display.height / 4)))
         pygame_widgets.update(events)
         pg.display.update()
 
