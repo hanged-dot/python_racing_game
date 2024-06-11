@@ -42,6 +42,8 @@ class ButtonManager:
                                  text='New Game', radius=20, colour=(0, 255, 0), onClick=self.parent.init_race,
                                  font=pg.font.Font('freesansbold.ttf', 20))
 
+        self.pause_statistics_text_value = ""
+
         self.endgame_start_button = Button(self.get_display(), self.get_display_width() * (1 / 2), self.get_display_height() * (1 / 3),
                                   width=self.get_display_width() * (3 / 10), height=self.get_display_height() * (1 / 20),
                                   text='Start Game', radius=20, colour=(255, 0, 0), onClick=self.parent.init_race,
@@ -71,15 +73,17 @@ class ButtonManager:
         self.pause_restart_button.show()
         self.pause_new_game_button.show()
 
+        self.pause_statistics_text = self.font.render(self.pause_statistics_text_value, True, (255, 0, 0, 255))
+
     def show_endgame(self):
         self.hide_all()
 
         self.endgame_start_button.show()
         self.endgame_quit_game_button.show()
 
-        self.endgame_text = self.font.render('You WIN', True, (0, 255, 0, 255), (0, 0, 0, 0))
+        self.endgame_text = self.font.render('You WIN', True, (0, 255, 0, 255), (128, 128, 128, 128))
         if self.parent.opponent_car.finish_line():
-            self.endgame_text = self.font.render('You LOSE', True, (255, 0, 0, 255), (0, 0, 0, 0))
+            self.endgame_text = self.font.render('You LOSE', True, (255, 0, 0, 255), (128, 128, 128, 128))
 
     def hide_all(self):
         self.begin_start_button.hide()
@@ -94,6 +98,7 @@ class ButtonManager:
         self.endgame_quit_game_button.hide()
 
         self.endgame_text = self.font.render('', True, (255, 0, 0, 0), (0, 0, 0, 0))
+        self.pause_statistics_text = self.font.render('', True, (255, 0, 0, 0), (0, 0, 0, 0))
         
 
     def get_display_width(self):
@@ -107,3 +112,7 @@ class ButtonManager:
 
     def getVolumeValue(self):
         return self.pause_volume_slider.getValue()
+
+    def setPauseStatisticsText(self, text):
+        self.pause_statistics_text_value = text
+        self.pause_statistics_text = self.font.render(self.pause_statistics_text_value, True, (255, 0, 0, 255), (0, 0, 0))

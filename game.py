@@ -132,17 +132,15 @@ class Game:
 
 
     def update_stats_display(self):
-        circle_center=(0,0)
-        radius=int(self.display.height * (1 / 7))
-        statistics_surface = pg.Surface((self.display.width, self.display.height), pg.SRCALPHA)
-        pg.draw.arc(statistics_surface, (128, 128, 128, 128), (circle_center[0] - radius, circle_center[1] - radius, 2 * radius, 2 * radius), 0, pi/2, 5)
-        pygame.draw.line(statistics_surface, (128, 128, 128, 128), circle_center, (circle_center[0] + radius, circle_center[1]),5)
-        pygame.draw.line(statistics_surface, (128, 128, 128, 128), circle_center, (circle_center[0], circle_center[1] + radius),5)
-        font = pg.font.Font('freesansbold.ttf', self.display.height // 25)
+
+        statistics_surface = pg.Surface((self.display.width // 2.5, self.display.height // 6), pg.SRCALPHA)
+        statistics_surface.fill((128, 128, 128, 128))
+
+        font = pg.font.Font('freesansbold.ttf', self.display.height // 30)
         text1 = font.render('Velocity: %.0f' % (self.player_car.get_velocity() * 100), True, (255, 165, 0))
         text2 = font.render('Distance left: %.0f' % (self.player_car.get_dist_to_goal()), True, (255, 165, 0))
-        text1_rect = text1.get_rect(center=(circle_center[0] + radius / 2, circle_center[1] + radius / 4))
-        text2_rect = text2.get_rect(center=(circle_center[0] + radius / 2, circle_center[1] + 3 * radius / 4))
+        text1_rect = text1.get_rect(left=0, top=0)
+        text2_rect = text2.get_rect(left=0, top=self.display.height//10)
         statistics_surface.blit(text1, text1_rect)
         statistics_surface.blit(text2, text2_rect)
 
@@ -163,6 +161,8 @@ class Game:
     def init_pause(self):
         self.game_state = GameState.PAUSE
         self.button_manager.show_pause()
+        # ToDo dodać napis ze statystykami
+        self.button_manager.setPauseStatisticsText("For stats")
 
     def paused(self):
         events = pg.event.get()
@@ -177,6 +177,7 @@ class Game:
                 self.unpaused()
         self.update_drawing()
         self.display.display.blit(self.button_manager.rect, (0, 0))
+        self.display.display.blit(self.button_manager.pause_statistics_text, (int(self.display.width / 4), int(self.display.height / 4)))
         pg.mixer.music.set_volume(self.button_manager.getVolumeValue())
         pygame_widgets.update(events)
         pg.display.flip()
