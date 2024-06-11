@@ -2,6 +2,7 @@ import os
 import copy
 import pygame as pg
 from math import pi, sin, cos, atan
+import numpy as np
 
 import config
 from map import background
@@ -10,8 +11,8 @@ from map import background
 class AutomatedCar():
     def __init__(self, road, display):
         self.road = road
-        self.__image = pg.image.load("images/car2.png")
-        self.__default_image = pg.image.load("images/car2.png")
+        self.__image = pg.image.load("images/king.png")
+        self.__default_image = pg.image.load("images/king.png")
         self.__position = [self.road.get_path()[0][0], self.road.get_path()[0][1]]
         self.__width = self.__image.get_width()
         self.__height = self.__image.get_height()
@@ -24,6 +25,7 @@ class AutomatedCar():
         self.__dist_to_goal = 0
         self.__display = display
         self.__volume = 0
+        self.__base_velocity = 1.2
         self.engine_sound = pg.mixer.Sound("images/car-engine-71198.mp3")
 
         self.__road_angle()
@@ -39,6 +41,9 @@ class AutomatedCar():
 
     def get_velocity(self):
         return self.__velocity
+    
+    def set_base_velocity(self,vel):
+        self.__base_velocity = vel
 
     def restart(self):
         self.__checkpoint = 0
@@ -53,8 +58,11 @@ class AutomatedCar():
 
         self.__display.display.blit(self.__image, temp_position)
 
-    def update(self, gas):
-        self.__move(gas)
+    def update(self):
+        if self.__velocity < np.random.normal(1,0.1)*self.__base_velocity*1.2:
+            self.__move(True)
+        else:
+            self.__move(False)
         self.__road_angle()
 
     def __road_angle(self):

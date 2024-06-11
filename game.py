@@ -35,14 +35,6 @@ class Game:
         self.road = None
         self.player_car = None
         self.opponent_car = None
-        '''opponent_car = Car(road,display)
-        
-        road.check_boundaries(opponent_car)
-        road.check_for_checkpoints(opponent_car)
-        opponent_moves = opponent_car.calc_route(road)'''
-
-        file = open('statistics/stats.csv', mode='a', newline='')
-        self.writer = csv.writer(file)
 
         self.button_manager = ButtonManager(self)
     
@@ -85,12 +77,14 @@ class Game:
         pg.display.update()
 
     def init_race(self):
+        self.games_won()
         self.game_state = GameState.RACE
         self.button_manager.hide_all()
 
         self.road = Road(config.road_length, config.road_width, config.max_speed, config.zoom, self.display)
         self.player_car = Car(self.road, self.display)
         self.opponent_car = AutomatedCar(self.road, self.display)
+        self.opponent_car.set_base_velocity(self.avg_vel/self.total_games)
 
 
     def race(self):
@@ -116,34 +110,53 @@ class Game:
         self.road.check_boundaries(self.player_car)
         self.road.check_for_checkpoints(self.player_car)
 
-        if self.opponent_car.get_velocity() < np.random.normal(1,0.1)*1.4:
-            self.opponent_car.update(True)
-        else:
-            self.opponent_car.update(False)
+        self.opponent_car.update()
         self.road.check_boundaries(self.opponent_car)
         self.road.check_for_checkpoints(self.opponent_car)
 
         self.update_drawing()
         self.update_stats_display()
-        self.writer.writerow([self.player_car.get_velocity(), self.player_car.get_dist_to_goal()])
+        
 
         pg.display.update()  # you can use flip here, will update everything, but it is recommended to use this in 2D
 
         if self.player_car.finish_line():
+            
             self.init_endscreen()
 
+    def games_won(self):
+        self.total_games = 0
+        self.games_won_ = 0
+        self.avg_vel = 0
+
+        with open('statistics/stats.csv', 'r') as csvfile:
+            csv_reader = csv.reader(csvfile)
+
+            for row in csv_reader:
+                self.total_games += 1
+                self.games_won_ += int(row[0])
+                self.avg_vel += float(row[1])
 
     def update_stats_display(self):
-        statistics_surface = pg.Surface((self.display.width // 2.5, self.display.height // 6), pg.SRCALPHA)
+        statistics_surface = pg.Surface((self.display.width // 2.8, self.display.height // 4), pg.SRCALPHA)
         statistics_surface.fill((128, 128, 128, 128))
 
         font = pg.font.Font('freesansbold.ttf', self.display.height // 30)
         text1 = font.render('Velocity: %.0f' % (self.player_car.get_velocity() * 100), True, (255, 165, 0))
         text2 = font.render('Distance left: %.0f' % (self.player_car.get_dist_to_goal()), True, (255, 165, 0))
+        text3 = font.render('Avg. velocity: %.0f' % (self.player_car.get_avg_velocity() * 100), True, (255, 165, 0))
+        text4 = font.render('Games won: %d/%d' % (self.games_won_,self.total_games), True, (255, 165, 0))
+        text5 = font.render('Typical velocity: %.0f' % (self.avg_vel*100/self.total_games), True, (255, 165, 0))
         text1_rect = text1.get_rect(left=0, top=0)
         text2_rect = text2.get_rect(left=0, top=self.display.height//10)
+        text3_rect = text3.get_rect(left=0, top=self.display.height//20)
+        text4_rect = text2.get_rect(left=0, top=self.display.height//6.5)
+        text5_rect = text3.get_rect(left=0, top=self.display.height//5)
         statistics_surface.blit(text1, text1_rect)
         statistics_surface.blit(text2, text2_rect)
+        statistics_surface.blit(text3, text3_rect)
+        statistics_surface.blit(text4, text4_rect)
+        statistics_surface.blit(text5, text5_rect)
 
         self.display.display.blit(statistics_surface, (0,0))
         pg.display.update()

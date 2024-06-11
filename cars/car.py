@@ -27,6 +27,8 @@ class Car():
         self.__dist_to_goal = 0
         self.__display = display
         self.__volume=0
+        self.__iter = 0
+        self.__velsum = 0
         self.engine_sound = pg.mixer.Sound("images/car-engine-71198.mp3")
 
         self.__road_angle()
@@ -59,6 +61,11 @@ class Car():
         self.__rotate(keys)
         self.__move(keys)
 
+        self.__iter += 1
+        self.__velsum += self.__velocity
+    
+    def get_avg_velocity(self):
+        return self.__velsum/self.__iter
     
     def __road_angle(self):
         if self.__checkpoint+1 == self.road.get_length():

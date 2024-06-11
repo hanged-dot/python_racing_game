@@ -1,6 +1,7 @@
 from pygame_widgets.button import Button
 from pygame_widgets.slider import Slider
 import pygame as pg
+import csv
 
 class ButtonManager:
     def __init__(self, parent):
@@ -82,12 +83,18 @@ class ButtonManager:
     def show_endgame(self):
         self.hide_all()
 
+        file = open('statistics/stats.csv', mode='a', newline='')
+        writer = csv.writer(file)
+
         self.endgame_start_button.show()
         self.endgame_quit_game_button.show()
 
-        self.endgame_text = self.font.render('You WIN', True, (0, 255, 0, 255), (128, 128, 128, 128))
         if self.parent.opponent_car.finish_line():
             self.endgame_text = self.font.render('You LOSE', True, (255, 0, 0, 255), (128, 128, 128, 128))
+            writer.writerow([0,self.parent.player_car.get_avg_velocity()])
+        else:
+            self.endgame_text = self.font.render('You WIN', True, (0, 255, 0, 255), (128, 128, 128, 128))
+            writer.writerow([1,self.parent.player_car.get_avg_velocity()])
 
     def hide_all(self):
         self.begin_start_button.hide()
