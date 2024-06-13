@@ -1,4 +1,0 @@
-- mierzenie odległości od mety
-- cofanie gdy wyjedziesz za drogę
-- optymalizacja
-- refactoring

@@ -8,7 +8,7 @@ import config
 from map import background
 
 
-class AutomatedCar():
+class AutomatedCar:
     def __init__(self, road, display):
         self.road = road
         self.__image = pg.image.load("images/king.png")

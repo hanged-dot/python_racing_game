@@ -3,6 +3,7 @@ from pygame_widgets.slider import Slider
 import pygame as pg
 import csv
 
+
 class ButtonManager:
     def __init__(self, parent):
         self.parent = parent
@@ -14,53 +15,73 @@ class ButtonManager:
 
         self.begin_text = self.font.render("Radiator Springs Adventure", True, (0, 0, 0, 255))
 
-        self.begin_start_button = Button(self.get_display(), self.get_display_width() * (1 / 3), self.get_display_height() * (1 / 2),
-                              width=self.get_display_width() * (3 / 10), height=self.get_display_height() * (1 / 20),
-                              text='Start Game', radius=20, colour=(255, 0, 0), onClick=self.parent.init_race,
-                              font=pg.font.Font('freesansbold.ttf', 20))
-        self.begin_end_button = Button(self.get_display(), self.get_display_width() * (1 / 3), self.get_display_height() * (3 / 4),
-                             width=self.get_display_width() * (1.5 / 10), height=self.get_display_height() * (1 / 20),
-                             text='Quit', radius=20, colour=(255, 0, 0), onClick=self.parent.quit_game,
-                             font=pg.font.Font('freesansbold.ttf', 20))
+        self.begin_start_button = Button(self.get_display(), self.get_display_width() * (1 / 3),
+                                         self.get_display_height() * (1 / 2),
+                                         width=self.get_display_width() * (3 / 10),
+                                         height=self.get_display_height() * (1 / 20),
+                                         text='Start Game', radius=20, colour=(255, 0, 0),
+                                         onClick=self.parent.init_race,
+                                         font=pg.font.Font('freesansbold.ttf', 20))
+        self.begin_end_button = Button(self.get_display(), self.get_display_width() * (1 / 3),
+                                       self.get_display_height() * (3 / 4),
+                                       width=self.get_display_width() * (1.5 / 10),
+                                       height=self.get_display_height() * (1 / 20),
+                                       text='Quit', radius=20, colour=(255, 0, 0), onClick=self.parent.quit_game,
+                                       font=pg.font.Font('freesansbold.ttf', 20))
 
         self.rect = pg.Surface((self.get_display_width(), self.get_display_height()), pg.SRCALPHA)
         self.rect.fill((128, 128, 128, 128))
 
         self.pause_volume_slider = Slider(self.get_display(), int(self.get_display_width() * (1 / 4)),
-                               int(self.get_display_height() * (2/ 5)), width=self.get_display_width() // 2,
-                               height=self.get_display_height() // 20, min=0, max=1, step=0.1, curved=True,
-                               initial=pg.mixer.music.get_volume())
-        self.pause_unpause_button = Button(self.get_display(), int(self.get_display_width() * (2 / 3)), int(self.get_display_height() * (3 / 5)),
-                              width=self.get_display_width() * (1.5 / 10), height=self.get_display_height() * (1 / 20),
-                              text='Resume', radius=20, colour=(0, 0, 255), onClick=self.parent.unpaused,
-                              font=pg.font.Font('freesansbold.ttf', 20))
-        self.pause_quit_game_button = Button(self.get_display(), int(self.get_display_width() * (1 / 4)), self.get_display_height() * (3 / 5),
-                                  width=self.get_display_width() * (1.5 / 10), height=self.get_display_height() * (1 / 20),
-                                  text='Quit', radius=20, colour=(255, 0, 0), onClick=self.parent.init_homescreen,
-                                  font=pg.font.Font('freesansbold.ttf', 20))
-        self.pause_restart_button = Button(self.get_display(), self.get_display_width() * (1 / 4), int(self.get_display_height() * (4 / 5)),
-                                width=self.get_display_width() * (1.5 / 10), height=self.get_display_height() * (1 / 20),
-                                text='Restart', radius=20, colour=(0, 255, 0), onClick=self.parent.restart_race,
-                                font=pg.font.Font('freesansbold.ttf', 20))
-        self.pause_new_game_button = Button(self.get_display(), self.get_display_width() * (2 / 3), int(self.get_display_height() * (4 / 5)),
-                                 width=int(self.get_display_width() * (2 / 10)), height=self.get_display_height() * (1 / 20),
-                                 text='New Game', radius=20, colour=(0, 255, 0), onClick=self.parent.init_race,
-                                 font=pg.font.Font('freesansbold.ttf', 20))
+                                          int(self.get_display_height() * (2 / 5)), width=self.get_display_width() // 2,
+                                          height=self.get_display_height() // 20, min=0, max=1, step=0.1, curved=True,
+                                          initial=pg.mixer.music.get_volume())
+        self.pause_unpause_button = Button(self.get_display(), int(self.get_display_width() * (2 / 3)),
+                                           int(self.get_display_height() * (3 / 5)),
+                                           width=self.get_display_width() * (1.5 / 10),
+                                           height=self.get_display_height() * (1 / 20),
+                                           text='Resume', radius=20, colour=(0, 0, 255), onClick=self.parent.unpaused,
+                                           font=pg.font.Font('freesansbold.ttf', 20))
+        self.pause_quit_game_button = Button(self.get_display(), int(self.get_display_width() * (1 / 4)),
+                                             self.get_display_height() * (3 / 5),
+                                             width=self.get_display_width() * (1.5 / 10),
+                                             height=self.get_display_height() * (1 / 20),
+                                             text='Quit', radius=20, colour=(255, 0, 0),
+                                             onClick=self.parent.init_homescreen,
+                                             font=pg.font.Font('freesansbold.ttf', 20))
+        self.pause_restart_button = Button(self.get_display(), self.get_display_width() * (1 / 4),
+                                           int(self.get_display_height() * (4 / 5)),
+                                           width=self.get_display_width() * (1.5 / 10),
+                                           height=self.get_display_height() * (1 / 20),
+                                           text='Restart', radius=20, colour=(0, 255, 0),
+                                           onClick=self.parent.restart_race,
+                                           font=pg.font.Font('freesansbold.ttf', 20))
+        self.pause_new_game_button = Button(self.get_display(), self.get_display_width() * (2 / 3),
+                                            int(self.get_display_height() * (4 / 5)),
+                                            width=int(self.get_display_width() * (2 / 10)),
+                                            height=self.get_display_height() * (1 / 20),
+                                            text='New Game', radius=20, colour=(0, 255, 0),
+                                            onClick=self.parent.init_race,
+                                            font=pg.font.Font('freesansbold.ttf', 20))
 
         self.pause_statistics_text_value = ""
 
-        self.endgame_start_button = Button(self.get_display(), self.get_display_width() * (1 / 3), self.get_display_height() * (1 / 2),
-                                  width=self.get_display_width() * (3 / 10), height=self.get_display_height() * (1 / 20),
-                                  text='Start Game', radius=20, colour=(255, 0, 0), onClick=self.parent.init_race,
-                                  font=pg.font.Font('freesansbold.ttf', 20))
-        self.endgame_quit_game_button = Button(self.get_display(), self.get_display_width() * (1 / 3), self.get_display_height() * (3 / 4),
-                                  width=self.get_display_width() * (1.5 / 10), height=self.get_display_height() * (1 / 20),
-                                  text='Quit', radius=20, colour=(255, 0, 0), onClick=self.parent.init_homescreen,
-                                  font=pg.font.Font('freesansbold.ttf', 20))
-
+        self.endgame_start_button = Button(self.get_display(), self.get_display_width() * (1 / 3),
+                                           self.get_display_height() * (1 / 2),
+                                           width=self.get_display_width() * (3 / 10),
+                                           height=self.get_display_height() * (1 / 20),
+                                           text='Start Game', radius=20, colour=(255, 0, 0),
+                                           onClick=self.parent.init_race,
+                                           font=pg.font.Font('freesansbold.ttf', 20))
+        self.endgame_quit_game_button = Button(self.get_display(), self.get_display_width() * (1 / 3),
+                                               self.get_display_height() * (3 / 4),
+                                               width=self.get_display_width() * (1.5 / 10),
+                                               height=self.get_display_height() * (1 / 20),
+                                               text='Quit', radius=20, colour=(255, 0, 0),
+                                               onClick=self.parent.init_homescreen,
+                                               font=pg.font.Font('freesansbold.ttf', 20))
 
         self.hide_all()
-        
 
     def show_homescreen(self):
         self.hide_all()
@@ -78,7 +99,8 @@ class ButtonManager:
         self.pause_restart_button.show()
         self.pause_new_game_button.show()
 
-        self.pause_statistics_text = self.font.render(self.pause_statistics_text_value, True, (255, 0, 0, 255),(128, 128, 128, 128))
+        self.pause_statistics_text = self.font.render(self.pause_statistics_text_value, True, (255, 0, 0, 255),
+                                                      (128, 128, 128, 128))
 
     def show_endgame(self):
         self.hide_all()
@@ -91,10 +113,10 @@ class ButtonManager:
 
         if self.parent.opponent_car.finish_line():
             self.endgame_text = self.font.render('You LOSE', True, (255, 0, 0, 255), (128, 128, 128, 128))
-            writer.writerow([0,self.parent.player_car.get_avg_velocity()])
+            writer.writerow([0, self.parent.player_car.get_avg_velocity()])
         else:
             self.endgame_text = self.font.render('You WIN', True, (0, 255, 0, 255), (128, 128, 128, 128))
-            writer.writerow([1,self.parent.player_car.get_avg_velocity()])
+            writer.writerow([1, self.parent.player_car.get_avg_velocity()])
 
     def hide_all(self):
         self.begin_start_button.hide()
@@ -126,4 +148,5 @@ class ButtonManager:
 
     def setPauseStatisticsText(self, text):
         self.pause_statistics_text_value = text
-        self.pause_statistics_text = self.font.render(self.pause_statistics_text_value, True, (255, 165, 0), (128, 128, 128, 128))
+        self.pause_statistics_text = self.font.render(self.pause_statistics_text_value, True, (255, 165, 0),
+                                                      (128, 128, 128, 128))

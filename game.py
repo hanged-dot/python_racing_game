@@ -14,12 +14,12 @@ from pygame_widgets.button import Button
 from button_manager import ButtonManager
 from enum import Enum
 
+
 class GameState(Enum):
     HOMESCREEN = 0,
     RACE = 1,
     PAUSE = 2,
     ENDGAME = 3,
-
 
 
 class Game:
@@ -37,7 +37,7 @@ class Game:
         self.opponent_car = None
 
         self.button_manager = ButtonManager(self)
-    
+
     def run(self):
         while True:
             match self.game_state:
@@ -84,8 +84,7 @@ class Game:
         self.road = Road(config.road_length, config.road_width, config.max_speed, config.zoom, self.display)
         self.player_car = Car(self.road, self.display)
         self.opponent_car = AutomatedCar(self.road, self.display)
-        self.opponent_car.set_base_velocity(self.avg_vel/self.total_games)
-
+        self.opponent_car.set_base_velocity(self.avg_vel / self.total_games)
 
     def race(self):
         for event in pg.event.get():
@@ -116,12 +115,10 @@ class Game:
 
         self.update_drawing()
         self.update_stats_display()
-        
 
         pg.display.update()  # you can use flip here, will update everything, but it is recommended to use this in 2D
 
         if self.player_car.finish_line():
-            
             self.init_endscreen()
 
     def games_won(self):
@@ -145,20 +142,20 @@ class Game:
         text1 = font.render('Velocity: %.0f' % (self.player_car.get_velocity() * 100), True, (255, 165, 0))
         text2 = font.render('Distance left: %.0f' % (self.player_car.get_dist_to_goal()), True, (255, 165, 0))
         text3 = font.render('Avg. velocity: %.0f' % (self.player_car.get_avg_velocity() * 100), True, (255, 165, 0))
-        text4 = font.render('Games won: %d/%d' % (self.games_won_,self.total_games), True, (255, 165, 0))
-        text5 = font.render('Typical velocity: %.0f' % (self.avg_vel*100/self.total_games), True, (255, 165, 0))
+        text4 = font.render('Games won: %d/%d' % (self.games_won_, self.total_games), True, (255, 165, 0))
+        text5 = font.render('Typical velocity: %.0f' % (self.avg_vel * 100 / self.total_games), True, (255, 165, 0))
         text1_rect = text1.get_rect(left=0, top=0)
-        text2_rect = text2.get_rect(left=0, top=self.display.height//10)
-        text3_rect = text3.get_rect(left=0, top=self.display.height//20)
-        text4_rect = text2.get_rect(left=0, top=self.display.height//6.5)
-        text5_rect = text3.get_rect(left=0, top=self.display.height//5)
+        text2_rect = text2.get_rect(left=0, top=self.display.height // 10)
+        text3_rect = text3.get_rect(left=0, top=self.display.height // 20)
+        text4_rect = text2.get_rect(left=0, top=self.display.height // 6.5)
+        text5_rect = text3.get_rect(left=0, top=self.display.height // 5)
         statistics_surface.blit(text1, text1_rect)
         statistics_surface.blit(text2, text2_rect)
         statistics_surface.blit(text3, text3_rect)
         statistics_surface.blit(text4, text4_rect)
         statistics_surface.blit(text5, text5_rect)
 
-        self.display.display.blit(statistics_surface, (0,0))
+        self.display.display.blit(statistics_surface, (0, 0))
         pg.display.update()
 
     def update_drawing(self):
@@ -191,7 +188,8 @@ class Game:
                 self.unpaused()
         self.update_drawing()
         self.display.display.blit(self.button_manager.rect, (0, 0))
-        self.display.display.blit(self.button_manager.pause_statistics_text, (int(self.display.width / 5), int(self.display.height / 5)))
+        self.display.display.blit(self.button_manager.pause_statistics_text,
+                                  (int(self.display.width / 5), int(self.display.height / 5)))
         pg.mixer.music.set_volume(self.button_manager.getVolumeValue())
         pygame_widgets.update(events)
         pg.display.flip()
@@ -218,7 +216,8 @@ class Game:
                 self.button_manager.show_endgame()
 
         self.background.draw()
-        self.display.display.blit(self.button_manager.endgame_text, (int(self.display.width / 3), int(self.display.height / 4)))
+        self.display.display.blit(self.button_manager.endgame_text,
+                                  (int(self.display.width / 3), int(self.display.height / 4)))
         pygame_widgets.update(events)
         pg.display.update()
 

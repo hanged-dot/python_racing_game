@@ -1,7 +1,9 @@
 from math import sqrt
 
-def dist(A,B):
-    return sqrt((A[0]-B[0])**2+(A[1]-B[1])**2)
+
+def dist(A, B):
+    return sqrt((A[0] - B[0]) ** 2 + (A[1] - B[1]) ** 2)
+
 
 def dist_point_segment(A, B, C):  # distance from segment |AB| to point C assuming all coordinates > 0
     # równanie prostej l: A1x + B1y + C1 = 0, do prostej należą punkty A i B
