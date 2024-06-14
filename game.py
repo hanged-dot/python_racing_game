@@ -171,9 +171,11 @@ class Game:
 
     def init_pause(self):
         self.game_state = GameState.PAUSE
+        self.button_manager.setPauseStatisticsText(
+            "Distance left: %.0f  Avg. velocity: %.0f  Games won: %d/%d  Typical velocity: %.0f"
+            % (self.player_car.get_dist_to_goal(), self.player_car.get_avg_velocity() * 100,
+               self.games_won_, self.total_games, self.avg_vel * 100 / self.total_games))
         self.button_manager.show_pause()
-        # ToDo dodać napis ze statystykami
-        self.button_manager.setPauseStatisticsText("For stats")
 
     def paused(self):
         events = pg.event.get()
@@ -183,13 +185,13 @@ class Game:
             if event.type == pg.WINDOWSIZECHANGED:
                 self.window_changed(event.x, event.y)
                 self.button_manager.spawn_buttons()
-                self.button_manager.show_pause()
+                self.init_pause()
             if event.type == pg.KEYDOWN and (event.key == pg.K_p or event.key == pg.K_ESCAPE):
                 self.unpaused()
         self.update_drawing()
         self.display.display.blit(self.button_manager.rect, (0, 0))
         self.display.display.blit(self.button_manager.pause_statistics_text,
-                                  (int(self.display.width / 5), int(self.display.height / 5)))
+                                  (int(self.display.width // 40), int(self.display.height / 5)))
         pg.mixer.music.set_volume(self.button_manager.getVolumeValue())
         pygame_widgets.update(events)
         pg.display.flip()

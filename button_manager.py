@@ -12,7 +12,7 @@ class ButtonManager:
 
     def spawn_buttons(self):
         self.font = pg.font.Font('freesansbold.ttf', self.get_display_height() // 15)
-
+        self.font2 = pg.font.Font('freesansbold.ttf', self.get_display_width() // 38)
         self.begin_text = self.font.render("Radiator Springs Adventure", True, (0, 0, 0, 255))
 
         self.begin_start_button = Button(self.get_display(), self.get_display_width() * (1 / 3),
@@ -98,9 +98,8 @@ class ButtonManager:
         self.pause_quit_game_button.show()
         self.pause_restart_button.show()
         self.pause_new_game_button.show()
+        self.pause_statistics_text = self.font2.render(self.pause_statistics_text_value, True, (255, 140, 0, 255))
 
-        self.pause_statistics_text = self.font.render(self.pause_statistics_text_value, True, (255, 0, 0, 255),
-                                                      (128, 128, 128, 128))
 
     def show_endgame(self):
         self.hide_all()
@@ -131,7 +130,7 @@ class ButtonManager:
         self.endgame_quit_game_button.hide()
 
         self.endgame_text = self.font.render('', True, (255, 0, 0, 0))
-        self.pause_statistics_text = self.font.render('', True, (255, 0, 0, 0))
+        self.pause_statistics_text = self.font2.render(self.pause_statistics_text_value, True, (255, 140, 0, 0))
         self.begin_text = self.font.render('', True, (255, 0, 0, 0))
 
     def get_display_width(self):
@@ -148,5 +147,4 @@ class ButtonManager:
 
     def setPauseStatisticsText(self, text):
         self.pause_statistics_text_value = text
-        self.pause_statistics_text = self.font.render(self.pause_statistics_text_value, True, (255, 165, 0),
-                                                      (128, 128, 128, 128))
+        self.pause_statistics_text = self.font2.render(self.pause_statistics_text_value, True, (255, 140, 0))
