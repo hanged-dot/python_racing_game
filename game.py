@@ -171,7 +171,7 @@ class Game:
 
     def init_pause(self):
         self.game_state = GameState.PAUSE
-        self.button_manager.setPauseStatisticsText(
+        self.button_manager.set_pause_statistics_text(
             "Distance left: %.0f  Avg. velocity: %.0f  Games won: %d/%d  Typical velocity: %.0f"
             % (self.player_car.get_dist_to_goal(), self.player_car.get_avg_velocity() * 100,
                self.games_won_, self.total_games, self.avg_vel * 100 / self.total_games))

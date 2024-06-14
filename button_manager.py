@@ -145,6 +145,6 @@ class ButtonManager:
     def getVolumeValue(self):
         return self.pause_volume_slider.getValue()
 
-    def setPauseStatisticsText(self, text):
+    def set_pause_statistics_text(self, text):
         self.pause_statistics_text_value = text
         self.pause_statistics_text = self.font2.render(self.pause_statistics_text_value, True, (255, 140, 0))
